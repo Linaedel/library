@@ -2,22 +2,12 @@ package ru.sbrf.ku.library.dao.impl;
 
 import ru.sbrf.ku.library.dao.ClientDao;
 import ru.sbrf.ku.library.entities.Client;
+import ru.sbrf.ku.library.entities.LibraryEntity;
 
-import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class ClientDaoImpl extends AbstractDaoImpl implements ClientDao {
-
-    @Override
-    public void insert( Client client ) {
-        em.getTransaction().begin();
-        em.persist(client);
-        System.out.println( ">>>>>>>>>>> created:" + client );
-        System.out.println( ">>>>>>>>>>> before commit" );
-
-        em.getTransaction().commit();
-    }
 
     @Override
     public List<Client> list() {
@@ -25,4 +15,12 @@ public class ClientDaoImpl extends AbstractDaoImpl implements ClientDao {
         return query.getResultList();
     }
 
+    @Override
+    public void add(LibraryEntity entity) {
+        if (entity instanceof Client) {
+            em.getTransaction().begin();
+            em.persist(entity);
+            em.getTransaction().commit();
+        }
+    }
 }

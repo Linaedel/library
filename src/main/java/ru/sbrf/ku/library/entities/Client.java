@@ -6,11 +6,11 @@ import javax.persistence.Entity;
 
 @Entity
 @DiscriminatorValue("client")
-public class Client extends Holder {
+public class Client extends Holder{
     @Column
     private String address;
 
-    @Column(name = "phone", nullable = false)
+    @Column(name = "phone")
     private String phone;
 
     public String getAddress() {

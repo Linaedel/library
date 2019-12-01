@@ -5,7 +5,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "book")
-public class Book {
+public class Book implements LibraryEntity{
     @Id
     @GeneratedValue( strategy = GenerationType.SEQUENCE)
     private Long id;
