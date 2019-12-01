@@ -19,6 +19,9 @@ public class Book {
     @Column
     private String author;
 
+    @Column
+    private Integer deleted;
+
     @OneToMany(targetEntity = Movement.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Movement> movements;
 
@@ -65,5 +68,13 @@ public class Book {
     public Book setMovements( List<Movement> movements ) {
         this.movements = movements;
         return this;
+    }
+
+    public Integer getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Integer deleted) {
+        this.deleted = deleted;
     }
 }

@@ -7,13 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-public class ClientDaoImpl implements ClientDao {
-
-    private EntityManager em;
-
-    public ClientDaoImpl(EntityManager em) {
-        this.em = em;
-    }
+public class ClientDaoImpl extends AbstractDaoImpl implements ClientDao {
 
     @Override
     public void insert( Client client ) {
@@ -23,10 +17,6 @@ public class ClientDaoImpl implements ClientDao {
         System.out.println( ">>>>>>>>>>> before commit" );
 
         em.getTransaction().commit();
-
-        //Не знаю, нужно ли это, но как-то так выглядит вторая часть:
-        Client selected = em.find(Client.class, client.getId());
-        System.out.println( ">>>>>>>>>>> selected:" + selected );
     }
 
     @Override
