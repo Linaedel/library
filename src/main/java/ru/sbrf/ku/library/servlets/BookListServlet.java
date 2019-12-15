@@ -26,7 +26,7 @@ public class BookListServlet extends HttpServlet {
         BookDao bookDao = new BookDaoImpl();
         StringBuilder sb = new StringBuilder();
 
-        bookDao.listOfBookNames().forEach(book -> sb.append("<p><a href='/book/").append(bookDao.getISBNbyBookName(book)).append("'>").append(book).append("</a></p>"));
+//        bookDao.listOfBookNames().forEach(book -> sb.append("<p><a href='/book/").append(bookDao.getISBNbyBookName(book)).append("'>").append(book).append("</a></p>"));
 
         response.setContentType("text/html");
         response.setStatus(HttpServletResponse.SC_OK);

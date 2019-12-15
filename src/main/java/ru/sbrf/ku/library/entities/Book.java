@@ -10,14 +10,8 @@ public class Book implements LibraryEntity{
     @GeneratedValue( strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(name = "isbn", nullable = false)
-    private String isbn;
-
-    @Column
-    private String name;
-
-    @Column
-    private String author;
+    @ManyToOne(targetEntity = BookDescription.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private BookDescription description;
 
     @Column
     private Integer deleted;
@@ -34,31 +28,12 @@ public class Book implements LibraryEntity{
         return this;
     }
 
-    public String getIsbn() {
-        return isbn;
+    public BookDescription getDescription() {
+        return description;
     }
 
-    public Book setIsbn( String isbn ) {
-        this.isbn = isbn;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Book setName( String name ) {
-        this.name = name;
-        return this;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public Book setAuthor( String author ) {
-        this.author = author;
-        return this;
+    public void setDescription(BookDescription description) {
+        this.description = description;
     }
 
     public List<Movement> getMovements() {

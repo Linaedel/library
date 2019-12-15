@@ -54,7 +54,7 @@ public class BookServlet extends HttpServlet {
         response.setStatus(HttpServletResponse.SC_OK);
         PrintWriter printWriter = response.getWriter();
         printWriter.print(page
-                .replace("%%PLACEHOLDER1%%", bookList.get(0).getName())
+                .replace("%%PLACEHOLDER1%%", bookList.get(0).getDescription().getName())
                 .replace("%%PLACEHOLDER2%%", sb.toString())
         );
         printWriter.flush();

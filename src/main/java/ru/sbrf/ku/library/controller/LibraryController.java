@@ -20,7 +20,7 @@ import java.util.List;
 public class LibraryController {
     private BookDao bookDao = new BookDaoImpl();
     private ClientDao clientDao = new ClientDaoImpl();
-    private PlacementDao placementDao = new PlacementDaoImpl();
+  private PlacementDao placementDao = new PlacementDaoImpl();
 
     public ClientBuilder addClient () {
         return new ClientBuilder(clientDao);

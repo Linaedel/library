@@ -30,7 +30,7 @@ public class Starter {
         System.out.println("Клиенты:");
         lc.getClientList().forEach(client -> System.out.println(client.getName()));
         System.out.println("Книги:");
-        lc.getBookList().forEach(book -> System.out.println(book.getName()));
+        lc.getBookList().forEach(book -> System.out.println(book.getDescription().getName()));
         List<Book> books = lc.getBooksOnHolder(client1);
         System.out.println(books);
 
@@ -52,13 +52,13 @@ public class Starter {
     public static void printState(LibraryController lc, Holder holder1, Holder holder2, Holder holder3, Holder holder4){
         System.out.println("============================================");
         System.out.println("Client 1 list: ");
-        lc.getBooksOnHolder(holder1).forEach(book -> System.out.println("\t" + book.getName()));
+        lc.getBooksOnHolder(holder1).forEach(book -> System.out.println("\t" + book.getDescription().getName()));
         System.out.println("Client 2 list: ");
-        lc.getBooksOnHolder(holder2).forEach(book -> System.out.println("\t" + book.getName()));
+        lc.getBooksOnHolder(holder2).forEach(book -> System.out.println("\t" + book.getDescription().getName()));
         System.out.println("Shelf 1 list: ");
-        lc.getBooksOnHolder(holder3).forEach(book -> System.out.println("\t" + book.getName()));
+        lc.getBooksOnHolder(holder3).forEach(book -> System.out.println("\t" + book.getDescription().getName()));
         System.out.println("Shelf 2 list: ");
-        lc.getBooksOnHolder(holder4).forEach(book -> System.out.println("\t" + book.getName()));
+        lc.getBooksOnHolder(holder4).forEach(book -> System.out.println("\t" + book.getDescription().getName()));
     }
 }
 
