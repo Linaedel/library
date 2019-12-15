@@ -1,61 +1,65 @@
 package ru.sbrf.ku.library;
 
 import org.h2.tools.Server;
-import ru.sbrf.ku.library.dao.BookDao;
-import ru.sbrf.ku.library.dao.ClientDao;
-import ru.sbrf.ku.library.dao.impl.BookDaoImpl;
-import ru.sbrf.ku.library.dao.impl.ClientDaoImpl;
+import ru.sbrf.ku.library.controller.LibraryController;
 import ru.sbrf.ku.library.entities.Book;
 import ru.sbrf.ku.library.entities.Client;
-import ru.sbrf.ku.library.utils.EntityManagerBuilder;
+import ru.sbrf.ku.library.entities.Holder;
+import ru.sbrf.ku.library.entities.Placement;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class Starter {
 
     public static void main(String[] args) throws SQLException {
         Server server = Server.createTcpServer().start();
-        ClientDao clientDao = new ClientDaoImpl();
-//        clientDao.list().forEach(c -> System.out.println(c));
-        BookDao bookDao = new BookDaoImpl();
 
-        Client client1 = new Client();
-        client1.setName("Test3");
-        client1.setPhone("12");
-        clientDao.insert(client1);
+        LibraryController lc = new LibraryController();
+        Client client1 = lc.addClient().setName("Иванов").setAddress("Москва").setPhone("223322").build();
+        Client client2 = lc.addClient().setName("Петров").setAddress("Тула").setPhone("123123").build();
+        Placement shelf1 = lc.addPlacement().setName("Верхняя полка").setDescription("Тяжело тянуться").build();
+        Placement shelf2 = lc.addPlacement().setName("Нижняя полка").setDescription("Опция по дефолту").build();
 
-        Client client2 = new Client();
-        client2.setName("Test4");
-        client2.setPhone("21");
-        clientDao.insert(client2);
+        Book book1 = lc.addBook().setName("Сто лет одиночества").setAuthor("Г.Г. Маркес").setIsbn("12").build();
+        Book book2 = lc.addBook().setName("Горе от ума").setAuthor("А.С. Грибоедов").setIsbn("13").build();
+        Book book3 = lc.addBook().setName("Не время для драконов").setAuthor("C. Лукьяненко, Н.Перумов").setIsbn("2222").build();
+        Book book4 = lc.addBook().setName("Сто лет одиночества").setAuthor("Г.Г. Маркес").setIsbn("12").build();
+        lc.addBook().setName("Сто лет одиночества").setAuthor("Г.Г. Маркес").setIsbn("12").build();
 
-        Book book = new Book();
-        book.setName("Сто лет одиночества");
-        book.setAuthor("Г.Г. Маркес");
-        book.setIsbn("12345");
-        bookDao.add(book);
-        bookDao.list().forEach(c -> System.out.println(c));
+        System.out.println("Клиенты:");
+        lc.getClientList().forEach(client -> System.out.println(client.getName()));
+        System.out.println("Книги:");
+        lc.getBookList().forEach(book -> System.out.println(book.getName()));
+        List<Book> books = lc.getBooksOnHolder(client1);
+        System.out.println(books);
 
-
-
-        System.out.println("Client 1 list = " + bookDao.getBookOnHolder(client1.getId()));
-        System.out.println("Client 2 list = " +bookDao.getBookOnHolder(client2.getId()));
-        ((BookDaoImpl) bookDao).move(book,client1);
-        System.out.println("Client 1 list = " + bookDao.getBookOnHolder(client1.getId()));
-        System.out.println("Client 2 list = " +bookDao.getBookOnHolder(client2.getId()));
-        ((BookDaoImpl) bookDao).move(book,client2);
-        System.out.println("Client 1 list = " + bookDao.getBookOnHolder(client1.getId()));
-        System.out.println("Client 2 list = " +bookDao.getBookOnHolder(client2.getId()));
-        ((BookDaoImpl) bookDao).move(book,client1);
-        System.out.println("Client 1 list = " + bookDao.getBookOnHolder(client1.getId()));
-        System.out.println("Client 2 list = " +bookDao.getBookOnHolder(client2.getId()));
-
-        book.getMovements().forEach(movement -> System.out.println(movement.getFrom() + " " + movement.getTo()));
-//        clientDao.list().forEach(c -> System.out.println(c));
+        printState(lc,client1,client2,shelf1,shelf2);
+        lc.move(book1,shelf1);
+        lc.move(book2,shelf2);
+        lc.move(book3,shelf1);
+        printState(lc,client1,client2,shelf1,shelf2);
+        lc.move(book1, client1);
+        lc.move(book1, shelf2);
+        lc.move(book1, client1);
+        printState(lc,client1,client2,shelf1,shelf2);
+        lc.move(book2, client2);
+        printState(lc,client1,client2,shelf1,shelf2);
+        lc.move(book4,shelf1);
         server.stop();
     }
 
-
+    public static void printState(LibraryController lc, Holder holder1, Holder holder2, Holder holder3, Holder holder4){
+        System.out.println("============================================");
+        System.out.println("Client 1 list: ");
+        lc.getBooksOnHolder(holder1).forEach(book -> System.out.println("\t" + book.getName()));
+        System.out.println("Client 2 list: ");
+        lc.getBooksOnHolder(holder2).forEach(book -> System.out.println("\t" + book.getName()));
+        System.out.println("Shelf 1 list: ");
+        lc.getBooksOnHolder(holder3).forEach(book -> System.out.println("\t" + book.getName()));
+        System.out.println("Shelf 2 list: ");
+        lc.getBooksOnHolder(holder4).forEach(book -> System.out.println("\t" + book.getName()));
+    }
 }
 
 

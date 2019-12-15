@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Table(name = "holder")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn()
-public class Holder {
+public class Holder implements LibraryEntity {
 
     @Id
     @GeneratedValue( strategy = GenerationType.SEQUENCE)
@@ -14,6 +14,9 @@ public class Holder {
 
     @Column
     private String name;
+
+    @Column
+    private Integer type;
 
     public Long getId() {
         return id;
@@ -31,5 +34,13 @@ public class Holder {
     public Holder setName( String name ) {
         this.name = name;
         return this;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 }

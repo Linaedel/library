@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "movement")
-public class Movement {
+public class Movement implements LibraryEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
