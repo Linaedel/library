@@ -8,7 +8,6 @@ import ru.sbrf.ku.library.entities.LibraryEntity;
 import ru.sbrf.ku.library.entities.Movement;
 
 import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -26,16 +25,19 @@ public class BookDaoImpl extends AbstractDaoImpl implements BookDao {
     }
 
     @Override
-    public List<BookDescription> listOfBookNames() {
+    public List<BookDescription> listOfBookDescriptions() {
         return em.createQuery("select b from BookDescription b", BookDescription.class).getResultList();
-
-//        return em.createQuery("select distinct (b.name) from Book b",String.class).getResultList();
     }
 
     @Override
     public Book get(Long id) {
         Book book = em.find(Book.class, id);
         return book.getDeleted() == 1 ? null : book;
+    }
+
+    @Override
+    public BookDescription getBookDescription(Long id) {
+        return em.find(BookDescription.class, id);
     }
 
     @Override
@@ -46,13 +48,10 @@ public class BookDaoImpl extends AbstractDaoImpl implements BookDao {
     }
 
     @Override
-    public List<Book> getListByISBN(String isbn) {
-        return em.createQuery("select b from Book b where b.isbn = ?1", Book.class).setParameter(1, isbn).getResultList();
-    }
-
-    @Override
-    public String getISBNbyBookName(String name) {
-        return em.createQuery("select b.isbn from Book b where b.name = ?1", String.class).setParameter(1, name).getSingleResult();
+    public void updateBookDescription(BookDescription description) {
+        em.getTransaction().begin();
+        em.merge(description);
+        em.getTransaction().commit();
     }
 
     @Override

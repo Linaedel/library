@@ -7,7 +7,6 @@ import ru.sbrf.ku.library.entities.BookDescription;
 import ru.sbrf.ku.library.services.BookService;
 
 import java.util.Collection;
-import java.util.HashSet;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -19,12 +18,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Collection<BookDescription> getBookDescriptions() {
-//        Set<BookDescription> bookSet = new HashSet<>(  );
-//        for (Book book : bookDao.list()){
-//            bookSet.add( BookDescription.build( book ) );
-//        }
-        return bookDao.listOfBookNames();
-
+        return bookDao.listOfBookDescriptions();
     }
 
     @Override
@@ -38,7 +32,17 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public void updateBookDescription(BookDescription description) {
+        bookDao.updateBookDescription(description);
+    }
+
+    @Override
     public void add( Book book ) {
         bookDao.add( book );
+    }
+
+    @Override
+    public BookDescription getBookDescription(Long id) {
+        return bookDao.getBookDescription(id);
     }
 }

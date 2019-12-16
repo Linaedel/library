@@ -9,9 +9,13 @@ public interface BookService {
 
     Collection<BookDescription> getBookDescriptions();
 
+    BookDescription getBookDescription(Long id);
+
     Book get(Long id);
 
     void update(Book book);
+
+    void updateBookDescription(BookDescription description);
 
     void add(Book book);
 }

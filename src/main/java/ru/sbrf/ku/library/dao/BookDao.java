@@ -8,12 +8,11 @@ import java.util.List;
 
 public interface BookDao extends AbstractDao{
     List<Book> list();
-//    List<String> listOfBookNames();
-    List<BookDescription> listOfBookNames();
+    List<BookDescription> listOfBookDescriptions();
     Book get (Long id);
+    BookDescription getBookDescription(Long id);
     void update (Book book);
-    List<Book> getListByISBN (String isbn);
-    String getISBNbyBookName (String name);
+    void updateBookDescription(BookDescription description);
     void remove(Long id);
     List<Book> getBooksOnHolder(Long holderId);
     Movement getLastMovement(Book book);
