@@ -19,7 +19,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>ru.sbrf.ku.ru.sbrf.ku.library.Starter</mainClass>
+                  <mainClass>ru.sbrf.ku.ru.sbrf.ku.library.WebStarter</mainClass>
                 </transformer>
               </transformers>
             </configuration>

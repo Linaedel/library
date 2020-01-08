@@ -1,12 +1,16 @@
 package ru.sbrf.ku.library.dao.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.sbrf.ku.library.dao.BookDao;
 import ru.sbrf.ku.library.entities.Book;
 import ru.sbrf.ku.library.entities.BookDescription;
 import ru.sbrf.ku.library.entities.LibraryEntity;
 import ru.sbrf.ku.library.entities.Movement;
 
+import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -16,8 +20,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
-public class BookDaoImpl extends AbstractDaoImpl implements BookDao {
+@Repository
+public class BookDaoImpl implements BookDao {
+    private final EntityManager em;
+
+    @Autowired
+    public BookDaoImpl(EntityManager em) {
+        this.em = em;
+    }
 
     @Override
     public List<Book> list() {
@@ -41,26 +51,23 @@ public class BookDaoImpl extends AbstractDaoImpl implements BookDao {
     }
 
     @Override
+    @Transactional
     public void update(Book book) {
-        em.getTransaction().begin();
         em.merge(book);
-        em.getTransaction().commit();
     }
 
     @Override
+    @Transactional
     public void updateBookDescription(BookDescription description) {
-        em.getTransaction().begin();
         em.merge(description);
-        em.getTransaction().commit();
     }
 
     @Override
+    @Transactional
     public void remove(Long id) {
         Book book = em.find(Book.class, id);
         if (book != null) {
-            em.getTransaction().begin();
             book.setDeleted(1);
-            em.getTransaction().commit();
         }
     }
 
@@ -89,6 +96,7 @@ public class BookDaoImpl extends AbstractDaoImpl implements BookDao {
     }
 
     @Override
+    @Transactional
     public void add(LibraryEntity entity) {
         if (entity instanceof Book) {
             Book book = (Book) entity;
@@ -111,9 +119,7 @@ public class BookDaoImpl extends AbstractDaoImpl implements BookDao {
             if (presentResult != null){
                 book.setDescription(presentResult);
             }
-            em.getTransaction().begin();
             em.persist(entity);
-            em.getTransaction().commit();
         }
     }
 }

@@ -1,5 +1,6 @@
 package ru.sbrf.ku.library.services.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.sbrf.ku.library.dao.BookDao;
 import ru.sbrf.ku.library.entities.Book;
@@ -12,6 +13,7 @@ import java.util.Collection;
 public class BookServiceImpl implements BookService {
     private final BookDao bookDao;
 
+    @Autowired
     public BookServiceImpl( BookDao bookDao ) {
         this.bookDao = bookDao;
     }

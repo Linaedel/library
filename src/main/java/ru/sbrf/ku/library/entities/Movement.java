@@ -9,10 +9,6 @@ public class Movement implements LibraryEntity{
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(insertable = false, updatable = false)
-    private Long book_id;
-
-
     @ManyToOne(targetEntity = Book.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Book book;
 
