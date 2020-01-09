@@ -2,7 +2,6 @@ package ru.sbrf.ku.library.dao.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.sbrf.ku.library.dao.BookDao;
 import ru.sbrf.ku.library.entities.Book;
@@ -68,6 +67,7 @@ public class BookDaoImpl implements BookDao {
         Book book = em.find(Book.class, id);
         if (book != null) {
             book.setDeleted(1);
+            em.merge(book);
         }
     }
 

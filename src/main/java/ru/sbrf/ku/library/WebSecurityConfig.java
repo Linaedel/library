@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.sbrf.ku.library.services.impl.UserDetailsServiceImpl;
 
 @Configuration
@@ -18,8 +19,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsServiceImpl userDetailsService; //в оригинале не имплементация, разобраться
 
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
+    public PasswordEncoder bCryptPasswordEncoder() {
+        return new PasswordEncoder() {
+            @Override
+            public String encode(CharSequence charSequence) {
+                return charSequence.toString();
+            }
+
+            @Override
+            public boolean matches(CharSequence charSequence, String s) {
+                return charSequence.toString().equals(s);
+            }
+        };
     }
 
     @Override
@@ -29,8 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/resources/**", "/registration").permitAll()
 //                .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                .loginPage("/login")
+                .formLogin().loginPage("/login")
                 .permitAll()
                 .and()
                 .logout()

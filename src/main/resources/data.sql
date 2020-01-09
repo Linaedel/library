@@ -9,10 +9,10 @@ INSERT INTO roles (id, name) VALUES
 (3, 'ROLE_USER')
 ;
 
-INSERT INTO users (id, username, password) VALUES
-(1, 'Admin', 'admin'),
-(2, 'Librarian', 'lib'),
-(3, 'User', 'user' )
+INSERT INTO users (id, username, password, deleted) VALUES
+(1, 'Admin', 'admin', 0),
+(2, 'Librarian', 'lib', 0),
+(3, 'User', 'user', 0 )
 ;
 
 INSERT INTO user_role(user_id, role_id) VALUES

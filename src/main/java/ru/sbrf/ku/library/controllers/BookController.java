@@ -19,14 +19,14 @@ public class BookController {
     @RequestMapping(value = "/books")
     public String books( ModelMap modelMap ) {
         modelMap.addAttribute( "books", bookService.getBookDescriptions() );
-        return "jsp/books";
+        return "books";
     }
 
     @RequestMapping(value = "/book/{id}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
     public String book(@PathVariable("id") Long id, ModelMap modelMap ) {
         System.out.println(id);
         modelMap.addAttribute( "bookdescription", bookService.getBookDescription( id ) );
-        return "jsp/book";
+        return "book";
     }
 
     @RequestMapping(value = "/book", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
@@ -34,7 +34,7 @@ public class BookController {
         System.out.println(bookDescription.getId());
         System.out.println(bookDescription.getName());
         bookService.updateBookDescription( bookDescription );
-        modelMap.addAttribute( "book", bookService.getBookDescription( bookDescription.getId() ) );
-        return "jsp/book";
+        modelMap.addAttribute( "books", bookService.getBookDescriptions() );
+        return "books";
     }
 }

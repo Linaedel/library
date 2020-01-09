@@ -24,18 +24,18 @@ public class UserController {
         return "registration";
     }
 
-    @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model) {
-        userValidator.validate(userForm, bindingResult);
-
-        if (bindingResult.hasErrors()) {
-            return "registration";
-        }
-
-        userService.save(userForm);
-
-        return "redirect:/welcome";
-    }
+//    @RequestMapping(value = "/registration", method = RequestMethod.POST)
+//    public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model) {
+//        userValidator.validate(userForm, bindingResult);
+//
+//        if (bindingResult.hasErrors()) {
+//            return "registration";
+//        }
+//
+//        userService.save(userForm);
+//
+//        return "redirect:/welcome";
+//    }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Model model, String error, String logout) {
