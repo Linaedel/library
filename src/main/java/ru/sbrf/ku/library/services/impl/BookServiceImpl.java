@@ -8,6 +8,9 @@ import ru.sbrf.ku.library.entities.BookDescription;
 import ru.sbrf.ku.library.services.BookService;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -46,5 +49,20 @@ public class BookServiceImpl implements BookService {
     @Override
     public BookDescription getBookDescription(Long id) {
         return bookDao.getBookDescription(id);
+    }
+
+    @Override
+    public Map<BookDescription, Integer> getAvailabeBooks() {
+        List<Book> availableBooks = bookDao.getBooksOnHolders();
+        Map<BookDescription, Integer> result = new HashMap<>();
+        for (Book b : availableBooks){
+            BookDescription bd = b.getDescription();
+            if (!result.containsKey(bd)){
+                result.put(bd,0);
+            } else {
+                result.merge(bd,1, Integer::sum);
+            }
+        }
+        return result;
     }
 }

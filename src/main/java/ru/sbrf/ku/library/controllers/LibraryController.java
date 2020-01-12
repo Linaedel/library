@@ -44,28 +44,41 @@ public class LibraryController {
 
     @RequestMapping(path = "/librarians/del/{id}")
     public String deleteLibrarian(@PathVariable("id") Long id, ModelMap modelMap){
-        personService.removeUser(id);
+        personService.removePerson(id);
         modelMap.addAttribute("librarians", personService.getLibrarianList());
         return "librarians";
     }
 
-    @RequestMapping(value = "/clients", method = RequestMethod.GET)
+    @RequestMapping(value = "/readers", method = RequestMethod.GET)
     public String clientList(ModelMap modelMap) {
-        modelMap.addAttribute("clients", personService.getClientList());
-        return "clients";
+        modelMap.addAttribute("readers", personService.getClientList());
+        return "readers";
     }
 
-    @RequestMapping(value = "/client", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "/reader", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
     public String book(ModelMap modelMap ) {
-        modelMap.addAttribute( "client", new Person() );
-        return "client";
+        modelMap.addAttribute( "reader", new Person() );
+        return "reader";
     }
 
-    @RequestMapping(value = "/client", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
-    public String bookEdit(@ModelAttribute("client") Person person, ModelMap modelMap ) {
-        personService.addNewClient(person);
-        modelMap.addAttribute( "clients", personService.getClientList() );
-        return "clients";
+    @RequestMapping(value = "/reader", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
+    public String bookEdit(@ModelAttribute("reader") Person person, ModelMap modelMap ) {
+        personService.addOrUpdate(person);
+        modelMap.addAttribute( "readers", personService.getClientList() );
+        return "readers";
+    }
+
+    @RequestMapping(value = "/reader/{id}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public String book(@PathVariable("id") Long id, ModelMap modelMap ) {
+        modelMap.addAttribute( "reader", personService.getPerson( id ) );
+        return "reader";
+    }
+
+    @RequestMapping(path = "/readers/del/{id}")
+    public String deleteReader(@PathVariable("id") Long id, ModelMap modelMap){
+        personService.removePerson(id);
+        modelMap.addAttribute("readers", personService.getClientList());
+        return "readers";
     }
 
     @RequestMapping(value = {"/welcome"})

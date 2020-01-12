@@ -4,12 +4,15 @@ import ru.sbrf.ku.library.entities.Book;
 import ru.sbrf.ku.library.entities.BookDescription;
 
 import java.util.Collection;
+import java.util.Map;
 
 public interface BookService {
 
     Collection<BookDescription> getBookDescriptions();
 
     BookDescription getBookDescription(Long id);
+
+    Map<BookDescription,Integer> getAvailabeBooks();
 
     Book get(Long id);
 

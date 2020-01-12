@@ -37,4 +37,10 @@ public class BookController {
         modelMap.addAttribute( "books", bookService.getBookDescriptions() );
         return "books";
     }
+
+    @RequestMapping(value = "/availablebooks")
+    public String availableBooks( ModelMap modelMap) {
+        modelMap.addAttribute("availableBooks", bookService.getAvailabeBooks());
+        return "availablebooks";
+    }
 }

@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.sbrf.ku.library.dao.BookDao;
-import ru.sbrf.ku.library.entities.Book;
-import ru.sbrf.ku.library.entities.BookDescription;
-import ru.sbrf.ku.library.entities.LibraryEntity;
-import ru.sbrf.ku.library.entities.Movement;
+import ru.sbrf.ku.library.entities.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -17,6 +14,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Repository
@@ -92,6 +90,18 @@ public class BookDaoImpl implements BookDao {
         return list().stream()
                 .filter(book -> (getLastMovement(book) != null &&
                         getLastMovement(book).getTo().getId() == holderId))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Book> getBooksOnHolders(){
+        return getBooksOnHolders(em.createQuery("select h.id from Holder h where h.type = 1 and h.deleted = 0", Long.class).getResultList());
+    }
+
+    private List<Book> getBooksOnHolders(List<Long> holderIds){
+        return list().stream()
+                .filter(book -> (getLastMovement(book) != null &&
+                        holderIds.contains(getLastMovement(book).getTo().getId())))
                 .collect(Collectors.toList());
     }
 

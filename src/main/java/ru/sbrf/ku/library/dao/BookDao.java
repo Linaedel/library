@@ -15,5 +15,6 @@ public interface BookDao extends AbstractDao{
     void updateBookDescription(BookDescription description);
     void remove(Long id);
     List<Book> getBooksOnHolder(Long holderId);
+    List<Book> getBooksOnHolders();
     Movement getLastMovement(Book book);
 }

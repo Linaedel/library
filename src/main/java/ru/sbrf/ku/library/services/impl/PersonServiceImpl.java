@@ -5,11 +5,8 @@ import org.springframework.stereotype.Service;
 import ru.sbrf.ku.library.dao.PersonDao;
 import ru.sbrf.ku.library.dao.UserRole;
 import ru.sbrf.ku.library.entities.Person;
-import ru.sbrf.ku.library.entities.Role;
 import ru.sbrf.ku.library.services.PersonService;
-import ru.sbrf.ku.library.viewmodel.ClienInfo;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -39,6 +36,16 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
+    public Set<Long> getHoldersId() {
+        return personDao.list().stream().filter(person -> person.getType().equals(1)).map(p -> p.getId()).collect(Collectors.toSet());
+    }
+
+    @Override
+    public Person getPerson(Long id) {
+        return personDao.get(id);
+    }
+
+    @Override
     public void addNewLibrarian(String username, String password) {
         Person person = new Person();
         person.setUsername(username);
@@ -49,20 +56,28 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public void addNewClient(Person person) {
+    public void addOrUpdate(Person person){
+        if (person.getId() == null) {
+            addNewReader(person);
+        } else {
+            person.setRoles(personDao.get(person.getId()).getRoles());
+            updatePerson(person);
+        }
+    }
+
+    @Override
+    public void addNewReader(Person person) {
         person.addRole(personDao.get(UserRole.READER));
         personDao.add(person);
     }
 
-
-
     @Override
-    public void updateClient(Person person) {
-
+    public void updatePerson(Person person) {
+        personDao.update(person);
     }
 
     @Override
-    public void removeUser(Long id) {
+    public void removePerson(Long id) {
         personDao.remove(id);
     }
 

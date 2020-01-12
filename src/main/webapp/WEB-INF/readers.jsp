@@ -5,11 +5,11 @@
     <title>Библиотека</title>
 </head>
 <body>
-    <h2><a href="/client">Добавить читателя</a></h2>
+    <h2><a href="/reader">Добавить читателя</a></h2>
     <h2>Список читателей:</h2>
     <div>
-        <c:forEach items="${clients}" var="person">
-            ${person.name}. ${person.phone} <a href="/librarians/del/${person.id}">Удалить</a> <br/>
+        <c:forEach items="${readers}" var="person">
+            <a href="/reader/${person.id}">${person.name}</a>. ${person.phone} <a href="/readers/del/${person.id}">Удалить</a> <br/>
         </c:forEach>
     </div>
 </body>
