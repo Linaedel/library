@@ -4,5 +4,5 @@ public enum UserRole {
     ANONYMOUS,
     ADMIN,
     LIBRARIAN,
-    USER
+    READER
 }

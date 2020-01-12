@@ -8,34 +8,34 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.sbrf.ku.library.dao.UserDao;
-import ru.sbrf.ku.library.entities.User;
+import ru.sbrf.ku.library.dao.PersonDao;
+import ru.sbrf.ku.library.entities.Person;
 
 import java.util.Collection;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private UserDao userDao;
+    private PersonDao personDao;
 
     @Autowired
-    public UserDetailsServiceImpl(UserDao userDao) {
-        this.userDao = userDao;
+    public UserDetailsServiceImpl(PersonDao personDao) {
+        this.personDao = personDao;
     }
 
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userDao.findByUsername(username);
-        if (user == null) {
+        Person person = personDao.findByUsername(username);
+        if (person == null) {
             throw new UsernameNotFoundException("User " + username + " not found");
         }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-                getAuthorities(user));
+        return new org.springframework.security.core.userdetails.User(person.getUsername(), person.getPassword(),
+                getAuthorities(person));
     }
 
-    private static Collection<? extends GrantedAuthority> getAuthorities(User user) {
-        String[] userRoles = user.getRoles().stream().map((role) -> role.getName()).toArray(String[]::new);
+    private static Collection<? extends GrantedAuthority> getAuthorities(Person person) {
+        String[] userRoles = person.getRoles().stream().map((role) -> role.getName()).toArray(String[]::new);
         Collection<GrantedAuthority> authorities = AuthorityUtils.createAuthorityList(userRoles);
         return authorities;
     }

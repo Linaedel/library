@@ -4,15 +4,14 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "role")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     @ManyToMany(mappedBy = "roles")
-    private Set< User > users;
-
+    private Set< Person > persons;
 
     public Long getId() {
         return id;
@@ -30,11 +29,11 @@ public class Role {
         this.name = name;
     }
 
-    public Set < User > getUsers() {
-        return users;
+    public Set<Person> getPersons() {
+        return persons;
     }
 
-    public void setUsers(Set < User > users) {
-        this.users = users;
+    public void setPersons(Set<Person> persons) {
+        this.persons = persons;
     }
 }
