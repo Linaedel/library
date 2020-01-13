@@ -45,12 +45,6 @@ public class BookController {
         return "books";
     }
 
-//    @RequestMapping(value = "/availablebooks")
-//    public String availableBooks( ModelMap modelMap) {
-//        modelMap.addAttribute("availableBooks", bookService.getAvailabeBooks());
-//        return "availablebooks";
-//    }
-
     @RequestMapping(value = "/availablebooks")
     public ModelAndView availableBooks(ModelMap modelMap) {
         return viewService.getAvailableBooks("availablebooks");

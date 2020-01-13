@@ -48,22 +48,6 @@ public class BookServiceImpl implements BookService {
         return bookDao.getBookDescription(id);
     }
 
-//    @Override
-//    public Map<BookDescription, Integer> getAvailabeBooks() {
-//        List<Book> availableBooks = bookDao.getBooksOnHolders();
-//        Map<BookDescription, Integer> result = new HashMap<>();
-//        for (Book b : availableBooks){
-//            BookDescription bd = b.getDescription();
-//            if (!result.containsKey(bd)){
-//                result.put(bd,1);
-//            } else {
-//                result.merge(bd,1, Integer::sum);
-//            }
-//        }
-//        return result;
-//    }
-
-
     @Override
     public Collection<BookDescription> getAvailabeBooks() {
         Collection<BookDescription> availableBooks = bookDao.listOfAvailableBooks();
