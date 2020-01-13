@@ -21,18 +21,18 @@ INSERT INTO person_role(person_id, role_id) VALUES
 (7,2)
 ;
 
-INSERT INTO bookdescription (id, isbn, name, author) VALUES
-(1, 1222, 'Сто лет одиночества', 'Г.Г. Маркес'),
-(2, 1342, 'Горе от ума', 'А.С. Грибоедов'),
-(3, 2333, 'Не время для драконов', 'C. Лукьяненко, Н.Перумов')
+INSERT INTO bookdescription (id, isbn, name, author, available, requested, returned) VALUES
+(1, 1222, 'Сто лет одиночества', 'Г.Г. Маркес', 2, 0, 0),
+(2, 1342, 'Горе от ума', 'А.С. Грибоедов', 0, 0, 0),
+(3, 2333, 'Не время для драконов', 'C. Лукьяненко, Н.Перумов', 1, 0, 0)
 ;
 
-INSERT INTO book (id, deleted, description_id) VALUES
-(1, 0, 1),
-(2, 0, 2),
-(3, 0, 3),
-(4, 0, 1),
-(5, 0, 1)
+INSERT INTO book (id, deleted, description_id, on_holder) VALUES
+(1, 0, 1, 0),
+(2, 0, 2, 0),
+(3, 0, 3, 1),
+(4, 0, 1, 1),
+(5, 0, 1, 1)
 ;
 
 INSERT INTO movement (id , from_id , to_id ) VALUES

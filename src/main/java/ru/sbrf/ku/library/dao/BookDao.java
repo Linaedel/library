@@ -9,6 +9,7 @@ import java.util.List;
 public interface BookDao extends AbstractDao{
     List<Book> list();
     List<BookDescription> listOfBookDescriptions();
+    List<BookDescription> listOfAvailableBooks();
     Book get (Long id);
     BookDescription getBookDescription(Long id);
     void update (Book book);

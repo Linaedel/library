@@ -7,10 +7,7 @@ import ru.sbrf.ku.library.entities.Book;
 import ru.sbrf.ku.library.entities.BookDescription;
 import ru.sbrf.ku.library.services.BookService;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -51,18 +48,32 @@ public class BookServiceImpl implements BookService {
         return bookDao.getBookDescription(id);
     }
 
+//    @Override
+//    public Map<BookDescription, Integer> getAvailabeBooks() {
+//        List<Book> availableBooks = bookDao.getBooksOnHolders();
+//        Map<BookDescription, Integer> result = new HashMap<>();
+//        for (Book b : availableBooks){
+//            BookDescription bd = b.getDescription();
+//            if (!result.containsKey(bd)){
+//                result.put(bd,1);
+//            } else {
+//                result.merge(bd,1, Integer::sum);
+//            }
+//        }
+//        return result;
+//    }
+
+
     @Override
-    public Map<BookDescription, Integer> getAvailabeBooks() {
-        List<Book> availableBooks = bookDao.getBooksOnHolders();
-        Map<BookDescription, Integer> result = new HashMap<>();
-        for (Book b : availableBooks){
-            BookDescription bd = b.getDescription();
-            if (!result.containsKey(bd)){
-                result.put(bd,0);
-            } else {
-                result.merge(bd,1, Integer::sum);
-            }
+    public Collection<BookDescription> getAvailabeBooks() {
+        Collection<BookDescription> availableBooks = bookDao.listOfAvailableBooks();
+        availableBooks.forEach(this::createRequestersIfNeeded);
+        return availableBooks;
+    }
+
+    void createRequestersIfNeeded(BookDescription bookDescription){
+        if(bookDescription.getRequesters() == null) {
+            bookDescription.setRequesters(new HashSet<>());
         }
-        return result;
     }
 }

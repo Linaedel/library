@@ -12,7 +12,8 @@ public interface BookService {
 
     BookDescription getBookDescription(Long id);
 
-    Map<BookDescription,Integer> getAvailabeBooks();
+//    Map<BookDescription,Integer> getAvailabeBooks();
+    Collection<BookDescription> getAvailabeBooks();
 
     Book get(Long id);
 

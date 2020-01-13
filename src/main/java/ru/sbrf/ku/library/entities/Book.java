@@ -16,6 +16,9 @@ public class Book implements LibraryEntity{
     @Column
     private Integer deleted;
 
+    @Column
+    private Integer onHolder;
+
     @OneToMany(targetEntity = Movement.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Movement> movements;
 
@@ -51,5 +54,13 @@ public class Book implements LibraryEntity{
 
     public void setDeleted(Integer deleted) {
         this.deleted = deleted;
+    }
+
+    public Integer getOnHolder() {
+        return onHolder;
+    }
+
+    public void setOnHolder(Integer onHolder) {
+        this.onHolder = onHolder;
     }
 }

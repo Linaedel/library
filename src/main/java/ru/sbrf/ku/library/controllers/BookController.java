@@ -3,17 +3,24 @@ package ru.sbrf.ku.library.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 import ru.sbrf.ku.library.entities.BookDescription;
 import ru.sbrf.ku.library.services.BookService;
+import ru.sbrf.ku.library.services.ViewService;
 
 @Controller
 public class BookController {
     private final BookService bookService;
+    private final ViewService viewService;
 
     @Autowired
-    public BookController( BookService bookService ) {
+    public BookController( BookService bookService, ViewService viewService) {
         this.bookService = bookService;
+        this.viewService = viewService;
     }
 
     @RequestMapping(value = "/books")
@@ -38,9 +45,14 @@ public class BookController {
         return "books";
     }
 
+//    @RequestMapping(value = "/availablebooks")
+//    public String availableBooks( ModelMap modelMap) {
+//        modelMap.addAttribute("availableBooks", bookService.getAvailabeBooks());
+//        return "availablebooks";
+//    }
+
     @RequestMapping(value = "/availablebooks")
-    public String availableBooks( ModelMap modelMap) {
-        modelMap.addAttribute("availableBooks", bookService.getAvailabeBooks());
-        return "availablebooks";
+    public ModelAndView availableBooks(ModelMap modelMap) {
+        return viewService.getAvailableBooks("availablebooks");
     }
 }
