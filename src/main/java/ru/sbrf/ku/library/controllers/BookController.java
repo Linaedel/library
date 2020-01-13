@@ -49,4 +49,19 @@ public class BookController {
     public ModelAndView availableBooks(ModelMap modelMap) {
         return viewService.getAvailableBooks("availablebooks");
     }
+
+    @RequestMapping(value = "/availablebooks/{id}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public ModelAndView requestBook(@PathVariable("id") Long id, ModelMap modelMap){
+        return viewService.requestBook("availablebooks",id);
+    }
+
+    @RequestMapping(value = "/holdedbooks")
+    public ModelAndView holdedBooks(ModelMap modelMap) {
+        return viewService.getHoldedBooks("holdedbooks");
+    }
+
+    @RequestMapping(value = "/holdedbooks/{id}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public ModelAndView returnBook(@PathVariable("id") Long id, ModelMap modelMap){
+        return viewService.returnBook("holdedbooks",id);
+    }
 }

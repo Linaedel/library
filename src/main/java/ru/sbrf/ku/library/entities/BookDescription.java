@@ -26,17 +26,11 @@ public class BookDescription {
     @Column
     private Integer requested;
 
-    @Column
-    private Integer returned;
-
     @OneToMany(targetEntity = Book.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Book> books;
 
     @ManyToMany(mappedBy = "requestedBooks")
     private Set<Person> requesters;
-
-    @ManyToMany(mappedBy = "returnedBooks")
-    private Set<Person> returners;
 
     public Long getId() {
         return id;
@@ -94,27 +88,11 @@ public class BookDescription {
         this.requested = requested;
     }
 
-    public Integer getReturned() {
-        return returned;
-    }
-
-    public void setReturned(Integer returned) {
-        this.returned = returned;
-    }
-
     public Set<Person> getRequesters() {
         return requesters;
     }
 
     public void setRequesters(Set<Person> requesters) {
         this.requesters = requesters;
-    }
-
-    public Set<Person> getReturners() {
-        return returners;
-    }
-
-    public void setReturners(Set<Person> returners) {
-        this.returners = returners;
     }
 }

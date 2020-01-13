@@ -10,7 +10,7 @@
     <c:forEach items="${availableBooks.viewMap}" var="book">
         ${book.key.name}. ${book.key.author}. В наличие: ${book.key.available} шт.
             <c:if test="${book.value == 0}">
-                <input type="button" value="Запросить" onclick="location.href='/readers/req/${book.key.id}'"/>
+                <input type="button" value="Запросить" onclick="location.href='/availablebooks/${book.key.id}'"/>
             </c:if>
             <c:if test="${book.value == 1}">
                 Книга запрошена.

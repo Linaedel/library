@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.sbrf.ku.library.dao.BookDao;
+import ru.sbrf.ku.library.dao.HolderType;
 import ru.sbrf.ku.library.entities.*;
 
 import javax.persistence.EntityManager;
@@ -14,7 +15,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Repository
@@ -84,18 +84,24 @@ public class BookDaoImpl implements BookDao {
         return movement;
     }
 
-
+    //TODO Переписать в качестве запроса
     @Override
-    public List<Book> getBooksOnHolder(Long holderId) {
-        return list().stream()
+    public List<Book> getBooksOnHolder(Holder holder) {
+        List<Book> holderList = holder.getType().equals(HolderType.PLACEMENT.ordinal())? getBooksOnHolders(): getBooksOnHands();
+        return holderList.stream()
                 .filter(book -> (getLastMovement(book) != null &&
-                        getLastMovement(book).getTo().getId() == holderId))
+                        getLastMovement(book).getTo().getId() == holder.getId()))
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<Book> getBooksOnHolders(){
-        return getBooksOnHolders(em.createQuery("select h.id from Holder h where h.type = 1 and h.deleted = 0", Long.class).getResultList());
+        return em.createQuery("select b from Book b where b.onHolder = 1 and b.deleted = 0", Book.class).getResultList();
+    }
+
+    @Override
+    public List<Book> getBooksOnHands(){
+        return em.createQuery("select b from Book b where b.onHolder = 0 and b.deleted = 0", Book.class).getResultList();
     }
 
     @Override
@@ -136,5 +142,16 @@ public class BookDaoImpl implements BookDao {
             }
             em.persist(entity);
         }
+    }
+
+    @Override
+    @Transactional
+    public void requestBook(Long id, Person person) {
+        BookDescription requestedBook = em.find(BookDescription.class, id);
+        requestedBook.getRequesters().add(person);
+        requestedBook.setRequested(1);
+        person.getRequestedBooks().add(requestedBook);
+        em.merge(requestedBook);
+        em.merge(person);
     }
 }

@@ -2,6 +2,7 @@ package ru.sbrf.ku.library.entities;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "book")
@@ -15,6 +16,9 @@ public class Book implements LibraryEntity{
 
     @Column
     private Integer deleted;
+
+    @Column
+    private Integer returned;
 
     @Column
     private Integer onHolder;
@@ -62,5 +66,13 @@ public class Book implements LibraryEntity{
 
     public void setOnHolder(Integer onHolder) {
         this.onHolder = onHolder;
+    }
+
+    public Integer getReturned() {
+        return returned;
+    }
+
+    public void setReturned(Integer returned) {
+        this.returned = returned;
     }
 }

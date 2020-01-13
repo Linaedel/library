@@ -5,9 +5,12 @@ import org.springframework.stereotype.Service;
 import ru.sbrf.ku.library.dao.BookDao;
 import ru.sbrf.ku.library.entities.Book;
 import ru.sbrf.ku.library.entities.BookDescription;
+import ru.sbrf.ku.library.entities.Holder;
+import ru.sbrf.ku.library.entities.Person;
 import ru.sbrf.ku.library.services.BookService;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -59,5 +62,15 @@ public class BookServiceImpl implements BookService {
         if(bookDescription.getRequesters() == null) {
             bookDescription.setRequesters(new HashSet<>());
         }
+    }
+
+    @Override
+    public void request(Long id, Person person) {
+        bookDao.requestBook(id,person);
+    }
+
+    @Override
+    public Collection<Book> getBooksOnHolder(Holder holder) {
+       return bookDao.getBooksOnHolder(holder);
     }
 }

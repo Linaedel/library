@@ -22,13 +22,9 @@ public class Person extends Holder{
     @JoinTable(name = "person_role", joinColumns = @JoinColumn(name = "person_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set< Role > roles;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "person_req_b", joinColumns = @JoinColumn(name = "person_id"), inverseJoinColumns = @JoinColumn(name = "book_id"))
     private Set<BookDescription> requestedBooks;
-
-    @ManyToMany
-    @JoinTable(name = "person_ret_b", joinColumns = @JoinColumn(name = "person_id"), inverseJoinColumns = @JoinColumn(name = "book_id"))
-    private Set<BookDescription> returnedBooks;
 
     public String getUsername() {
         return username;
@@ -85,13 +81,5 @@ public class Person extends Holder{
 
     public void setRequestedBooks(Set<BookDescription> requestedBooks) {
         this.requestedBooks = requestedBooks;
-    }
-
-    public Set<BookDescription> getReturnedBooks() {
-        return returnedBooks;
-    }
-
-    public void setReturnedBooks(Set<BookDescription> returnedBooks) {
-        this.returnedBooks = returnedBooks;
     }
 }

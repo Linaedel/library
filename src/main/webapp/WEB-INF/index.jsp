@@ -15,7 +15,8 @@
     <a href="/books">Список книг</a>
 </sec:authorize>
 <sec:authorize access="hasRole('ROLE_READER')">
-    <a href="/availablebooks">Список книг</a>
+    <a href="/availablebooks">Взять книгу</a>
+    <a href="/holdedbooks">Вернуть книгу</a>
 </sec:authorize>
 <sec:authorize access="!isAuthenticated()">
     <a href="/login">Login</a> <br/>

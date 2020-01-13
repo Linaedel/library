@@ -1,21 +1,25 @@
 package ru.sbrf.ku.library.dao;
 
-import ru.sbrf.ku.library.entities.Book;
-import ru.sbrf.ku.library.entities.BookDescription;
-import ru.sbrf.ku.library.entities.Movement;
+import ru.sbrf.ku.library.entities.*;
 
 import java.util.List;
 
 public interface BookDao extends AbstractDao{
     List<Book> list();
+    List<Book> getBooksOnHolder(Holder holder);
+    List<Book> getBooksOnHolders();
+    List<Book> getBooksOnHands();
+
+    Book get (Long id);
+    void update (Book book);
+    void remove(Long id);
+
     List<BookDescription> listOfBookDescriptions();
     List<BookDescription> listOfAvailableBooks();
-    Book get (Long id);
     BookDescription getBookDescription(Long id);
-    void update (Book book);
     void updateBookDescription(BookDescription description);
-    void remove(Long id);
-    List<Book> getBooksOnHolder(Long holderId);
-    List<Book> getBooksOnHolders();
+
     Movement getLastMovement(Book book);
+
+    void requestBook(Long id, Person person);
 }

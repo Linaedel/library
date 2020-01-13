@@ -4,4 +4,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 public interface ViewService {
     ModelAndView getAvailableBooks(String resource);
+    ModelAndView requestBook(String resource, Long id);
+    ModelAndView getHoldedBooks(String resource);
+    ModelAndView returnBook(String resource, Long id);
 }
