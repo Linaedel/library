@@ -9,6 +9,7 @@ public interface BookDao extends AbstractDao{
     List<Book> getBooksOnHolder(Holder holder);
     List<Book> getBooksOnHolders();
     List<Book> getBooksOnHands();
+    List<Book> getReturnedBooks();
 
     Book get (Long id);
     void update (Book book);

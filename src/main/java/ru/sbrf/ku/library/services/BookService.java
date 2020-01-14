@@ -1,9 +1,6 @@
 package ru.sbrf.ku.library.services;
 
-import ru.sbrf.ku.library.entities.Book;
-import ru.sbrf.ku.library.entities.BookDescription;
-import ru.sbrf.ku.library.entities.Holder;
-import ru.sbrf.ku.library.entities.Person;
+import ru.sbrf.ku.library.entities.*;
 
 import java.util.Collection;
 
@@ -26,4 +23,8 @@ public interface BookService {
     void request(Long id, Person person);
 
     Collection<Book> getBooksOnHolder(Holder holder);
+
+    Collection<Book> getReturnedBooks();
+
+    Movement getLastMovement(Book book);
 }

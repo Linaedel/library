@@ -23,6 +23,9 @@ public class Book implements LibraryEntity{
     @Column
     private Integer onHolder;
 
+    @OneToOne(targetEntity = Person.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Person returner;
+
     @OneToMany(targetEntity = Movement.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Movement> movements;
 
@@ -74,5 +77,13 @@ public class Book implements LibraryEntity{
 
     public void setReturned(Integer returned) {
         this.returned = returned;
+    }
+
+    public Person getReturner() {
+        return returner;
+    }
+
+    public void setReturner(Person returner) {
+        this.returner = returner;
     }
 }

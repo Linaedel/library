@@ -3,10 +3,7 @@ package ru.sbrf.ku.library.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ru.sbrf.ku.library.entities.BookDescription;
 import ru.sbrf.ku.library.services.BookService;
@@ -63,5 +60,15 @@ public class BookController {
     @RequestMapping(value = "/holdedbooks/{id}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
     public ModelAndView returnBook(@PathVariable("id") Long id, ModelMap modelMap){
         return viewService.returnBook("holdedbooks",id);
+    }
+
+    @RequestMapping(value = "/returnedbooks")
+    public ModelAndView returnedBooks(ModelMap modelMap) {
+        return viewService.getReturnedBooks("returnedbooks");
+    }
+
+    @RequestMapping(value = "/returnedbooks/take", params = {"book","place"}, method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public ModelAndView getBook(@RequestParam("book") Long bookId, @RequestParam("place") Long placementId, ModelMap modelMap){
+        return viewService.getBook("returnedbooks",bookId,placementId);
     }
 }

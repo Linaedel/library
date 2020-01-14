@@ -7,7 +7,7 @@
 <body>
 <h1>Список книг на руках:</h1>
 <div>
-    <c:forEach items="${holdedBooks.holdedBooks}" var="book">
+    <c:forEach items="${holdedBooks}" var="book">
         ${book.description.name}. ${book.description.author}. 
         <c:if test="${book.returned == 0}">
             <input type="button" value="Вернуть" onclick="location.href='/holdedbooks/${book.id}'"/>

@@ -11,12 +11,13 @@
     <a href="/librarians">Редактировать список библиотекарей</a></br>
 </sec:authorize>
 <sec:authorize access="hasRole('ROLE_LIBRARIAN')">
-    <a href="/readers">Список читателей</a>
-    <a href="/books">Список книг</a>
+    <a href="/readers">Список читателей</a> <br/>
+    <a href="/returnedbooks">Принять книги</a> <br/>
+    <a href="/books">Список книг</a> <br/>
 </sec:authorize>
 <sec:authorize access="hasRole('ROLE_READER')">
-    <a href="/availablebooks">Взять книгу</a>
-    <a href="/holdedbooks">Вернуть книгу</a>
+    <a href="/availablebooks">Взять книгу</a> <br/>
+    <a href="/holdedbooks">Вернуть книгу</a> <br/>
 </sec:authorize>
 <sec:authorize access="!isAuthenticated()">
     <a href="/login">Login</a> <br/>

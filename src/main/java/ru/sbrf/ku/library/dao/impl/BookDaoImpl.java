@@ -109,11 +109,9 @@ public class BookDaoImpl implements BookDao {
         return em.createQuery("select b from BookDescription b where b.available > 0", BookDescription.class).getResultList();
     }
 
-    private List<Book> getBooksOnHolders(List<Long> holderIds){
-        return list().stream()
-                .filter(book -> (getLastMovement(book) == null ||
-                        holderIds.contains(getLastMovement(book).getTo().getId())))
-                .collect(Collectors.toList());
+    @Override
+    public List<Book> getReturnedBooks() {
+        return em.createQuery("select b from Book b where b.returned = 1 and b.deleted = 0", Book.class).getResultList();
     }
 
     @Override

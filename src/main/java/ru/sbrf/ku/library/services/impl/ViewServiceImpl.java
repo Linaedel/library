@@ -3,16 +3,13 @@ package ru.sbrf.ku.library.services.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
 import ru.sbrf.ku.library.authfacade.AuthenticationFacade;
-import ru.sbrf.ku.library.entities.Book;
-import ru.sbrf.ku.library.entities.BookDescription;
-import ru.sbrf.ku.library.entities.Person;
-import ru.sbrf.ku.library.services.BookService;
-import ru.sbrf.ku.library.services.PersonService;
-import ru.sbrf.ku.library.services.ViewService;
+import ru.sbrf.ku.library.entities.*;
+import ru.sbrf.ku.library.services.*;
 import ru.sbrf.ku.library.view.AvailableBooksView;
-import ru.sbrf.ku.library.view.HoldedBooksView;
+import ru.sbrf.ku.library.view.ReturnedBooksView;
 
 import java.util.Collection;
 
@@ -20,11 +17,15 @@ import java.util.Collection;
 public class ViewServiceImpl implements ViewService {
     BookService bookService;
     PersonService personService;
+    PlacementService placementService;
+    MovementService movementService;
 
     @Autowired
-    public ViewServiceImpl(BookService bookService, PersonService personService) {
+    public ViewServiceImpl(BookService bookService, PersonService personService, PlacementService placementService, MovementService movementService) {
         this.bookService = bookService;
         this.personService = personService;
+        this.placementService = placementService;
+        this.movementService = movementService;
     }
 
     @Override
@@ -45,14 +46,15 @@ public class ViewServiceImpl implements ViewService {
     @Override
     public ModelAndView getHoldedBooks(String resource) {
         Person currentUser = personService.findByUsername(new AuthenticationFacade().getAuthentication().getName());
-        HoldedBooksView view = new HoldedBooksView(bookService.getBooksOnHolder(currentUser));
-        return new ModelAndViewBuilder().setViewName(resource).addObject("holdedBooks", view).build();
+        return new ModelAndViewBuilder().setViewName(resource).addObject("holdedBooks", bookService.getBooksOnHolder(currentUser)).build();
     }
 
     @Override
     public ModelAndView returnBook(String resource, Long id) {
         Book returnedBook = bookService.get(id);
+        Person currentUser = personService.findByUsername(new AuthenticationFacade().getAuthentication().getName());
         returnedBook.setReturned(1);
+        returnedBook.setReturner(currentUser);
         bookService.update(returnedBook);
         return getHoldedBooks(resource);
     }
@@ -77,5 +79,31 @@ public class ViewServiceImpl implements ViewService {
         public ModelAndView build(){
             return this.mv;
         }
+    }
+
+    @Override
+    public ModelAndView getReturnedBooks(String resource) {
+        Collection<Book> returnedBooks = bookService.getReturnedBooks();
+        Collection<Placement> placements = placementService.list();
+        ReturnedBooksView view = new ReturnedBooksView(returnedBooks.size(), returnedBooks,placements);
+        return new ModelAndViewBuilder().setViewName(resource).addObject("returnedBooks", view).build();
+    }
+
+    @Override
+    @Transactional
+    public ModelAndView getBook(String resource, Long bookId, Long placementId) {
+        Book book = bookService.get(bookId);
+        Movement lastMovement = bookService.getLastMovement(book);
+        Movement move = new Movement();
+        move.setBook(book);
+        move.setFrom(lastMovement.getTo());
+        move.setTo(placementService.get(placementId));
+//        movementService.add(move);
+        book.getMovements().add(move);
+        book.getDescription().setAvailable(book.getDescription().getAvailable() + 1);
+        book.setReturner(null);
+        book.setReturned(0);
+        bookService.update(book);
+        return getReturnedBooks(resource);
     }
 }

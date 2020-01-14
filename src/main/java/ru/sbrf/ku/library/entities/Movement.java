@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Table(name = "movement")
 public class Movement implements LibraryEntity{
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(targetEntity = Book.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
