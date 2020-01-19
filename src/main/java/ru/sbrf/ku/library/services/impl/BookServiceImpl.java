@@ -62,11 +62,6 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void request(Long id, Person person) {
-        bookDao.requestBook(id,person);
-    }
-
-    @Override
     public Collection<Book> getBooksOnHolder(Holder holder) {
        return bookDao.getBooksOnHolder(holder);
     }
@@ -79,5 +74,20 @@ public class BookServiceImpl implements BookService {
     @Override
     public Movement getLastMovement(Book book) {
         return bookDao.getLastMovement(book);
+    }
+
+    @Override
+    public Collection<BookDescription> getRequestedBooks() {
+        return bookDao.getRequestedBooks();
+    }
+
+    @Override
+    public Collection<Book> bookList() {
+        return bookDao.list();
+    }
+
+    @Override
+    public void remove(Long id) {
+        bookDao.remove(id);
     }
 }

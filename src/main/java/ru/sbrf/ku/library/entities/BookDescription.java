@@ -26,7 +26,7 @@ public class BookDescription {
     @Column
     private Integer requested;
 
-    @OneToMany(targetEntity = Book.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "description")
     private List<Book> books;
 
     @ManyToMany(mappedBy = "requestedBooks")

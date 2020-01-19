@@ -19,5 +19,8 @@
     </c:forEach>
 
 </div>
+<a href="/index">На главную</a> <br/>
+<a href="/logout">Выйти</a> <br/>
+
 </body>
 </html>

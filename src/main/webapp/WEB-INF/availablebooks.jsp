@@ -17,6 +17,8 @@
             </c:if>
         <br/>
     </c:forEach>
+    <a href="/index">На главную</a> <br/>
+    <a href="/logout">Выйти</a> <br/>
 </div>
 </body>
 </html>

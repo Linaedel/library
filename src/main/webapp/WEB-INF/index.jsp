@@ -12,6 +12,7 @@
 </sec:authorize>
 <sec:authorize access="hasRole('ROLE_LIBRARIAN')">
     <a href="/readers">Список читателей</a> <br/>
+    <a href="/requestedbooks">Выдать книги</a> <br/>
     <a href="/returnedbooks">Принять книги</a> <br/>
     <a href="/books">Список книг</a> <br/>
 </sec:authorize>

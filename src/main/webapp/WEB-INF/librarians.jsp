@@ -20,5 +20,8 @@
         ${librarian.username}. ${librarian.password} <a href="/librarians/del/${librarian.id}">Удалить</a> <br/>
     </c:forEach>
 </div>
+<a href="/index">На главную</a> <br/>
+<a href="/logout">Выйти</a> <br/>
+
 </body>
 </html>

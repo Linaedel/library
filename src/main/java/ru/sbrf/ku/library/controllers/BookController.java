@@ -3,43 +3,45 @@ package ru.sbrf.ku.library.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import ru.sbrf.ku.library.entities.BookDescription;
-import ru.sbrf.ku.library.services.BookService;
 import ru.sbrf.ku.library.services.ViewService;
 
 @Controller
 public class BookController {
-    private final BookService bookService;
     private final ViewService viewService;
 
     @Autowired
-    public BookController( BookService bookService, ViewService viewService) {
-        this.bookService = bookService;
+    public BookController(ViewService viewService) {
         this.viewService = viewService;
     }
 
     @RequestMapping(value = "/books")
-    public String books( ModelMap modelMap ) {
-        modelMap.addAttribute( "books", bookService.getBookDescriptions() );
-        return "books";
+    public ModelAndView books( ModelMap modelMap ) {
+        return viewService.getBookDescriptions("books");
     }
 
     @RequestMapping(value = "/book/{id}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
-    public String book(@PathVariable("id") Long id, ModelMap modelMap ) {
-        System.out.println(id);
-        modelMap.addAttribute( "bookdescription", bookService.getBookDescription( id ) );
-        return "book";
+    public ModelAndView book(@PathVariable("id") Long id, ModelMap modelMap ) {
+        return viewService.getBookDetails("book",id);
+    }
+
+    @RequestMapping(value = "/book/del/{id}", method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public ModelAndView removeBook(@PathVariable("id") Long id, ModelMap modelMap ) {
+        return viewService.removeBook("book",id);
     }
 
     @RequestMapping(value = "/book", method = RequestMethod.POST, produces = "text/html;charset=UTF-8")
-    public String bookEdit(@ModelAttribute("bookdescription") BookDescription bookDescription, ModelMap modelMap ) {
-        System.out.println(bookDescription.getId());
-        System.out.println(bookDescription.getName());
-        bookService.updateBookDescription( bookDescription );
-        modelMap.addAttribute( "books", bookService.getBookDescriptions() );
-        return "books";
+    public ModelAndView bookEdit(
+            @RequestParam("id") Long id,
+            @RequestParam("name") String name,
+            @RequestParam("author") String author,
+            @RequestParam("isbn") String isbn,
+            ModelMap modelMap ) {
+        return viewService.updateBookDetails("book",id,name,author,isbn);
     }
 
     @RequestMapping(value = "/availablebooks")
@@ -71,4 +73,15 @@ public class BookController {
     public ModelAndView getBook(@RequestParam("book") Long bookId, @RequestParam("place") Long placementId, ModelMap modelMap){
         return viewService.getBook("returnedbooks",bookId,placementId);
     }
+
+    @RequestMapping(value = "/requestedbooks")
+    public ModelAndView requestedBooks(ModelMap modelMap) {
+        return viewService.getRequestedBooks("requestedbooks");
+    }
+
+    @RequestMapping(value = "/requestedbooks/give", params = {"book","person"}, method = RequestMethod.GET, produces = "text/html;charset=UTF-8")
+    public ModelAndView giveBook(@RequestParam("book") Long bookId, @RequestParam("person") Long personId, ModelMap modelMap){
+        return viewService.giveBook("requestedbooks",bookId,personId);
+    }
+
 }

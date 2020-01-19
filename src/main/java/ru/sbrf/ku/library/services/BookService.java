@@ -12,6 +12,8 @@ public interface BookService {
 
     Collection<BookDescription> getAvailabeBooks();
 
+    Collection<BookDescription> getRequestedBooks();
+
     Book get(Long id);
 
     void update(Book book);
@@ -20,11 +22,13 @@ public interface BookService {
 
     void add(Book book);
 
-    void request(Long id, Person person);
-
     Collection<Book> getBooksOnHolder(Holder holder);
 
     Collection<Book> getReturnedBooks();
 
     Movement getLastMovement(Book book);
+
+    Collection<Book> bookList();
+
+    void remove(Long id);
 }

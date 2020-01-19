@@ -2,13 +2,12 @@ package ru.sbrf.ku.library.entities;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "book")
 public class Book implements LibraryEntity{
     @Id
-    @GeneratedValue( strategy = GenerationType.SEQUENCE)
+    @GeneratedValue( strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(targetEntity = BookDescription.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)

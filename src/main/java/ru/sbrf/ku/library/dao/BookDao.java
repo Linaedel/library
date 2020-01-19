@@ -17,10 +17,10 @@ public interface BookDao extends AbstractDao{
 
     List<BookDescription> listOfBookDescriptions();
     List<BookDescription> listOfAvailableBooks();
+    List<BookDescription> getRequestedBooks();
+
     BookDescription getBookDescription(Long id);
     void updateBookDescription(BookDescription description);
 
     Movement getLastMovement(Book book);
-
-    void requestBook(Long id, Person person);
 }

@@ -28,7 +28,7 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public List<Book> list() {
-        return em.createQuery("select b from Book b", Book.class).getResultList();
+        return em.createQuery("select b from Book b where b.deleted = 0", Book.class).getResultList();
     }
 
     @Override
@@ -65,6 +65,7 @@ public class BookDaoImpl implements BookDao {
         Book book = em.find(Book.class, id);
         if (book != null) {
             book.setDeleted(1);
+            book.getDescription().setAvailable(book.getDescription().getAvailable()-1);
             em.merge(book);
         }
     }
@@ -115,6 +116,11 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
+    public List<BookDescription> getRequestedBooks() {
+        return em.createQuery("select b from BookDescription b where b.requested = 1", BookDescription.class).getResultList();
+    }
+
+    @Override
     @Transactional
     public void add(LibraryEntity entity) {
         if (entity instanceof Book) {
@@ -140,16 +146,5 @@ public class BookDaoImpl implements BookDao {
             }
             em.persist(entity);
         }
-    }
-
-    @Override
-    @Transactional
-    public void requestBook(Long id, Person person) {
-        BookDescription requestedBook = em.find(BookDescription.class, id);
-        requestedBook.getRequesters().add(person);
-        requestedBook.setRequested(1);
-        person.getRequestedBooks().add(requestedBook);
-        em.merge(requestedBook);
-        em.merge(person);
     }
 }

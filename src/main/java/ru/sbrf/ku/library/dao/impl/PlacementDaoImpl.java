@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.sbrf.ku.library.dao.PlacementDao;
 import ru.sbrf.ku.library.entities.LibraryEntity;
-import ru.sbrf.ku.library.entities.Person;
 import ru.sbrf.ku.library.entities.Placement;
 
 import javax.persistence.EntityManager;

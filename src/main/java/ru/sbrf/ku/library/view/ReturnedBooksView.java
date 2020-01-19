@@ -10,8 +10,8 @@ public class ReturnedBooksView {
     private Collection<Book> collection;
     private Collection<Placement> placements;
 
-    public ReturnedBooksView(Integer hasOne, Collection<Book> collection, Collection<Placement> placements) {
-        this.hasOne = hasOne;
+    public ReturnedBooksView(Collection<Book> collection, Collection<Placement> placements) {
+        this.hasOne = collection.size();
         this.collection = collection;
         this.placements = placements;
     }

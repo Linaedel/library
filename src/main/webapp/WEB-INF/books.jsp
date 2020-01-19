@@ -5,11 +5,13 @@
     <title>Библиотека</title>
 </head>
 <body>
-<h1>Список доступных книг.</h1>
+<h1>Библиотечный фонд:</h1>
 <div>
     <c:forEach items="${books}" var="bookdescription">
         <a href="/book/${bookdescription.id}">${bookdescription.author}. ${bookdescription.name} </a> <br/>
     </c:forEach>
+    <a href="/index">На главную</a> <br/>
+    <a href="/logout">Выйти</a> <br/>
 </div>
 </body>
 </html>
