@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class Holder implements LibraryEntity {
 
     @Id
-    @GeneratedValue( strategy = GenerationType.SEQUENCE)
+    @GeneratedValue( strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
@@ -17,6 +17,10 @@ public class Holder implements LibraryEntity {
 
     @Column
     private Integer type;
+
+    @Column
+    private Integer deleted;
+
 
     public Long getId() {
         return id;
@@ -42,5 +46,13 @@ public class Holder implements LibraryEntity {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public Integer getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Integer deleted) {
+        this.deleted = deleted;
     }
 }

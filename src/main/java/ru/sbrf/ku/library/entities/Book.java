@@ -7,20 +7,23 @@ import java.util.List;
 @Table(name = "book")
 public class Book implements LibraryEntity{
     @Id
-    @GeneratedValue( strategy = GenerationType.SEQUENCE)
+    @GeneratedValue( strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "isbn", nullable = false)
-    private String isbn;
-
-    @Column
-    private String name;
-
-    @Column
-    private String author;
+    @ManyToOne(targetEntity = BookDescription.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private BookDescription description;
 
     @Column
     private Integer deleted;
+
+    @Column
+    private Integer returned;
+
+    @Column
+    private Integer onHolder;
+
+    @OneToOne(targetEntity = Person.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Person returner;
 
     @OneToMany(targetEntity = Movement.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Movement> movements;
@@ -34,31 +37,12 @@ public class Book implements LibraryEntity{
         return this;
     }
 
-    public String getIsbn() {
-        return isbn;
+    public BookDescription getDescription() {
+        return description;
     }
 
-    public Book setIsbn( String isbn ) {
-        this.isbn = isbn;
-        return this;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Book setName( String name ) {
-        this.name = name;
-        return this;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public Book setAuthor( String author ) {
-        this.author = author;
-        return this;
+    public void setDescription(BookDescription description) {
+        this.description = description;
     }
 
     public List<Movement> getMovements() {
@@ -76,5 +60,29 @@ public class Book implements LibraryEntity{
 
     public void setDeleted(Integer deleted) {
         this.deleted = deleted;
+    }
+
+    public Integer getOnHolder() {
+        return onHolder;
+    }
+
+    public void setOnHolder(Integer onHolder) {
+        this.onHolder = onHolder;
+    }
+
+    public Integer getReturned() {
+        return returned;
+    }
+
+    public void setReturned(Integer returned) {
+        this.returned = returned;
+    }
+
+    public Person getReturner() {
+        return returner;
+    }
+
+    public void setReturner(Person returner) {
+        this.returner = returner;
     }
 }

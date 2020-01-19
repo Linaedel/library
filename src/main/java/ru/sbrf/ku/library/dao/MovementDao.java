@@ -1,4 +1,7 @@
 package ru.sbrf.ku.library.dao;
 
-public interface MovementDao extends AbstractDao{
+import ru.sbrf.ku.library.entities.Movement;
+
+public interface MovementDao extends AbstractDao {
+    void update(Movement movement);
 }
